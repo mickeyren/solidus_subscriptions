@@ -19,9 +19,10 @@ module Spree
 
     def create_subscription_if_eligible
       begin
-        items = subscribable_line_items.group_by { |item| item.interval }
+        items = line_items.group_by { |item| item.interval }.reject{ |interval| interval.zero? }
+
         # pull user by email, this considers existing users opted for guest checkout
-        user = User.find_by(email: email)
+        user = User.find_by_email(email)
         items.keys.each do |interval|
           attrs = {
             user_id: user.id,
@@ -31,7 +32,8 @@ module Spree
             credit_card_id: credit_card_id_if_available
           }
 
-          subscription = Spree::Subscription.create(attrs)
+
+          subscription = subscriptions.new(attrs)
 
           # create subscription addresses
           subscription.create_ship_address!(ship_address.dup.attributes.merge({user_id: user.id}))
@@ -40,7 +42,7 @@ module Spree
           # orders can have many subscriptions
           subscriptions << subscription
 
-          # create subscription items
+          # single subscription may have multiple subscription items with same interval
           items[interval].each do |line_item|
             # and skip those are not subscribable
             next unless line_item.product.subscribable?
