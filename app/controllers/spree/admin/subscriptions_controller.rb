@@ -98,6 +98,18 @@ module Spree
         @subscriptions = Spree::Subscription.active.where('failure_count > 0').order('created_at desc')
       end
 
+      def adjust_sku
+        old_sku = params[:old_sku]
+        new_sku = params[:new_sku]
+        if request.post?
+          begin
+            @subscriptions = AdjustSkuService.new.update_subscription(old_sku, new_sku)
+          rescue => error
+            flash[:error] = "SKU's could not be updated: #{error.message}"
+          end
+        end
+      end
+
       protected
         def collection
           return @collection if defined?(@collection)
@@ -160,7 +172,7 @@ module Spree
         end
 
         def subscription_includes
-          [:user, :orders]
+          [:user, :orders, :subscription_items]
         end
     end
   end
