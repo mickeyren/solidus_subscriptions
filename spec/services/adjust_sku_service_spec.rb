@@ -59,8 +59,8 @@ describe AdjustSkuService do
 
   it "the variant of the new sku must exist" do
     @subscription.subscription_items.create!(variant_id: @old_variant.id, quantity: 5, price: 10.00, interval: 2)
-    AdjustSkuService.new.update_subscription("bdc1", "bdc3")
 
+    expect{ AdjustSkuService.new.update_subscription("bdc1", "bdc3") }.to raise_error
     expect(@subscription.subscription_items.first).to have_attributes(variant_id: @old_variant.id)
   end
 
