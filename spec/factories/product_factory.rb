@@ -8,8 +8,9 @@ FactoryGirl.define do
   end
 
   factory :subscribable_product, parent: :base_product do
-    variant { FactoryGirl.create(:subscribable_variant) }
     after(:create) do |product|
+      variant = FactoryGirl.create(:subscribable_variant) 
+
       product.subscribable = true
       product.variants << variant
       product.save
