@@ -19,7 +19,7 @@ module Spree
 
     def create_subscription_if_eligible
       begin
-        items = line_items.group_by { |item| item.interval }.reject{ |interval| interval.zero? }
+        items = line_items.group_by { |item| item.interval }.reject{ |interval| interval.nil? || interval.zero? }
 
         # pull user by email, this considers existing users opted for guest checkout
         user = User.find_by_email(email)
