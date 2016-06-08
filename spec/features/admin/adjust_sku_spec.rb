@@ -22,7 +22,7 @@ describe "Subscription Adjust Sku", type: :feature do
 
   context "renewed subscriptions" do
     it "subscription items have the new sku" do
-      AdjustSkuService.new.update_subscription("GPM100", "GPM100-2")
+      AdjustSkuService.new.update_subscriptions("GPM100", "GPM100-2")
 
       visit spree.admin_path
       visit "/admin/subscriptions/#{@subscription.id}/edit"
