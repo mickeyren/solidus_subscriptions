@@ -19,9 +19,9 @@ module Spree
 
     it "restricts access to subscriptions" do
       @subscription.update_column(:user_id, 999)
+      response = api_get :show, id: @subscription.id
 
-      api_get :show, id: @subscription.id
-      expect(json_response[:id]).to be nil
+      expect(response[:id]).to be nil
     end
 
     it "should allow the owner of the subscription to access it" do
