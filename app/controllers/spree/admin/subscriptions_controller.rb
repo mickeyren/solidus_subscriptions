@@ -81,6 +81,7 @@ module Spree
 
       # creates a new credit card and attaches it to the subscription
       def credit_card
+        @order = @object.orders.last
         if request.post?
           begin
             # get the payment_method_id
