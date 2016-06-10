@@ -8,7 +8,7 @@ module Spree
     end
 
     def finalize_with_create_subscription!
-      create_subscription_if_eligible
+      CreateSubscription.new(self).create
       finalize_without_create_subscription!
     end
 
@@ -17,49 +17,6 @@ module Spree
       line_item.interval == options[:interval]
     end
 
-    def create_subscription_if_eligible
-      begin
-        items = line_items.group_by { |item| item.interval }.reject{ |interval| interval.nil? || interval.zero? }
-
-        # pull user by email, this considers existing users opted for guest checkout
-        user = User.find_by_email(email)
-        items.keys.each do |interval|
-          attrs = {
-            user_id: user.id,
-            email: email,
-            state: 'active',
-            interval: interval,
-            credit_card_id: credit_card_id_if_available
-          }
-
-
-          subscription = subscriptions.new(attrs)
-
-          # create subscription addresses
-          subscription.create_ship_address!(ship_address.dup.attributes.merge({user_id: user.id}))
-          subscription.create_bill_address!(bill_address.dup.attributes.merge({user_id: user.id}))
-
-          # orders can have many subscriptions
-          subscriptions << subscription
-
-          # single subscription may have multiple subscription items with same interval
-          items[interval].each do |line_item|
-            # and skip those are not subscribable
-            next unless line_item.product.subscribable?
-            ::Spree::SubscriptionItem.create!(
-              subscription: subscription,
-              variant: line_item.variant,
-              quantity: line_item.quantity,
-              interval: interval
-            )
-          end
-        end
-      rescue => e
-        # TODO: Hook into error reporting
-        Rails.logger.error e.message
-        Rails.logger.error e.backtrace
-      end
-    end
 
     def subscription_interval
       subscription ? subscription.interval : 4
