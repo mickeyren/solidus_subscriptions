@@ -1,13 +1,9 @@
-class CreateSubscription
-  attr_reader :order
+class CreateSubscription < ActiveJob::Base
+  queue_as :default
 
-  def initialize(order)
-    @order = order
-  end
-
-  def create
+  def perform(order)
     begin
-      create_subscription_from_eligible_items
+      create_subscription_from_eligible_items(order)
     rescue => e
       Rails.logger.error e.message
       Rails.logger.error e.backtrace
@@ -16,9 +12,10 @@ class CreateSubscription
 
 protected
 
-  def create_subscription_from_eligible_items
+  def create_subscription_from_eligible_items(order)
     user = Spree::User.find_by_email(order.email)
-    eligible_line_items.keys.each do |interval|
+    line_items = eligible_line_items(order)
+    line_items.keys.each do |interval|
       attrs = {
         user_id: user.id,
         email: order.email,
@@ -26,24 +23,23 @@ protected
         interval: interval,
         credit_card_id: order.credit_card_id_if_available
       }
-
       subscription = order.subscriptions.new(attrs)
-      create_subscription_addresses(subscription, user)
+      create_subscription_addresses(order, subscription, user)
       order.subscriptions << subscription
-      create_subscription_items(subscription, interval)
+      create_subscription_items(line_items, subscription, interval)
     end
   end
 
-  def eligible_line_items
+  def eligible_line_items(order)
     @eligible_line_items ||= order.line_items.group_by { |item| item.interval }.reject{ |interval| interval.nil? || interval.zero? }
   end
 
-  def create_subscription_addresses(subscription, user)
+  def create_subscription_addresses(order, subscription, user)
     subscription.create_ship_address!(order.ship_address.dup.attributes.merge({user_id: user.id}))
     subscription.create_bill_address!(order.bill_address.dup.attributes.merge({user_id: user.id}))
   end
 
-  def create_subscription_items(subscription, interval)
+  def create_subscription_items(eligible_line_items, subscription, interval)
     eligible_line_items[interval].each do |line_item|
       next unless line_item.product.subscribable?
       Spree::SubscriptionItem.create!(

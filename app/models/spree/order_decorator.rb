@@ -8,7 +8,7 @@ module Spree
     end
 
     def finalize_with_create_subscription!
-      CreateSubscription.new(self).create
+      CreateSubscription.perform_later(self)
       finalize_without_create_subscription!
     end
 

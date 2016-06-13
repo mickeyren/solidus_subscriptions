@@ -10,7 +10,7 @@ describe CreateSubscription do
     order.create_ship_address(firstname: "Sherry", lastname: "Son", address1: "123 Lafayette Street", city: "New York", zipcode: "10013", phone: "425-533-4994", state_id: 1, country_id: 1)
     order.create_bill_address(firstname: "Sherry", lastname: "Son", address1: "123 Lafayette Street", city: "New York", zipcode: "10013", phone: "425-533-4994", state_id: 1, country_id: 1)
 
-    CreateSubscription.new(order).create
+    CreateSubscription.new.perform(order)
 
     subscription = user.subscriptions.first
 
