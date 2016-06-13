@@ -104,7 +104,7 @@ module Spree
         new_sku = params[:new_sku]
         if request.post?
           begin
-            @subscriptions = AdjustSkuService.new.update_subscription(old_sku, new_sku)
+            @subscriptions = AdjustSkuService.new.update_subscriptions(old_sku, new_sku)
           rescue => error
             flash[:error] = "SKU's could not be updated: #{error.message}"
           end

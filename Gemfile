@@ -16,6 +16,7 @@ group :test do
   gem 'timecop'
   gem 'guard-rspec', require: false
   gem 'simplecov', require: false
+  gem 'selenium-webdriver'
 end
 
 group :development do
