@@ -1,4 +1,4 @@
-class CreateSubscription < ActiveJob::Base
+class CreateSubscriptionJob < ActiveJob::Base
   queue_as :default
 
   def perform(order)
