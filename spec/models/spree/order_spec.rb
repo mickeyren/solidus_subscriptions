@@ -52,6 +52,19 @@ describe Spree::Order do
         expect(order.repeat_order).to be false
       end
     end
+
+    context "with a subscription" do
+      it "requires a user" do
+        valid_order = order
+        invalid_order = FactoryGirl.create(:completed_order_with_totals, user_id: nil)
+
+        valid_order.finalize!
+        invalid_order.finalize!
+
+        expect(order.subscriptions).to_not be_nil
+        expect(invalid_order.subscriptions).to be_empty
+      end
+    end
   end
 
   context "Subscription Interval" do
@@ -69,6 +82,5 @@ describe Spree::Order do
       expect(order.subscription_interval).to eq(4)
     end
   end
-
 
 end
