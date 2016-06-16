@@ -8,8 +8,7 @@ module Spree
     end
 
     def finalize_with_create_subscription!
-      return if user.nil?
-      CreateSubscriptionJob.perform_later(self)
+      CreateSubscriptionJob.perform_later(self.id) unless user.nil?
       finalize_without_create_subscription!
     end
 

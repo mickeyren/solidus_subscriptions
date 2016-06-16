@@ -1,8 +1,9 @@
 class CreateSubscriptionJob < ActiveJob::Base
   queue_as :default
 
-  def perform(order)
-    begin
+  def perform(order_id)
+    begin      
+      order = Spree::Order.find(order_id)
       create_subscription_from_eligible_items(order)
     rescue => e
       Rails.logger.error e.message
