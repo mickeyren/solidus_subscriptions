@@ -38,13 +38,15 @@ module Spree
       end
 
       def update
-        UpdateSubscriptionAddress.new.update_address(@object, params[:subscription])
-        if @subscription.save
-          flash[:success] = flash_message_for(@subscription, :subscription_address_updated)
+        if params[:subscription].key?(:ship_address_attributes || :bill_address_attributes)
+          UpdateSubscriptionAddress.new.update_address(@object, params[:subscription])
+          if @subscription.save
+            flash.notice = "Subscription #{@subscription.id}'s address was successfully updated"
 
-          redirect_to edit_object_url(@subscription)
-        else
-          flash[:error] = Spree.t(:subscription_address_could_not_be_update)
+            redirect_to edit_object_url(@subscription)
+          else
+            flash[:error] = "Subscription #{@subscription.id}'s address could not be updated: #{error.message}"
+          end
         end
       end
 
