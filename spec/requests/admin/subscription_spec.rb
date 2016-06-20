@@ -39,12 +39,15 @@ feature 'Subscription' do
 
       click_button("Update")
 
-      save_and_open_page
+      expect(page).to have_field("subscription_bill_address_attributes_address1", with: "updated address 1")
+      expect(page).to have_field("subscription_bill_address_attributes_address2", with: "updated address 2")
+      expect(page).to have_field("subscription_bill_address_attributes_city", with: "updated city")
+      expect(page).to have_field("subscription_bill_address_attributes_zipcode", with: "11111")
 
-      expect(page).to have_content("updated address 1")
-      expect(page).to have_content("pdated address 2")
-      expect(page).to have_content("updated city")
-      expect(page).to have_content("11111")
+      expect(page).to have_field("subscription_ship_address_attributes_address1", with: "updated address 1")
+      expect(page).to have_field("subscription_ship_address_attributes_address2", with: "updated address 2")
+      expect(page).to have_field("subscription_ship_address_attributes_city", with: "updated city")
+      expect(page).to have_field("subscription_ship_address_attributes_zipcode", with: "11111")
     end
 
   end
