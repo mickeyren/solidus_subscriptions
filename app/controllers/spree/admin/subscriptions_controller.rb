@@ -41,11 +41,11 @@ module Spree
         if params[:subscription].key?(:ship_address_attributes || :bill_address_attributes)
           UpdateSubscriptionAddress.new.update_address(@object, params[:subscription])
           if @subscription.save
-            flash.notice = "Subscription #{@subscription.id}'s address was successfully updated"
+            flash[:success] = "Subscription address was successfully updated"
 
             redirect_to edit_object_url(@subscription)
           else
-            flash[:error] = "Subscription #{@subscription.id}'s address could not be updated: #{error.message}"
+            flash[:error] = "Subscription address could not be updated: #{error.message}"
           end
         end
       end
