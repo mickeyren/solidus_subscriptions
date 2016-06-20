@@ -14,11 +14,11 @@ class UpdateSubscriptionAddress
   end
 
   def update_ship_address(subscription, new_ship_address)
-    subscription.create_ship_address!(subscription.ship_address.dup.attributes.merge(new_ship_address))
+    subscription.ship_address.update_columns(new_ship_address)
   end
 
   def update_bill_address(subscription, new_bill_address)
-    subscription.create_bill_address!(subscription.bill_address.dup.attributes.merge(new_bill_address))
+    subscription.bill_address.update_columns(new_bill_address)
   end
 
   def update_ship_and_bill_address(subscription, new_ship_address, new_bill_address)
