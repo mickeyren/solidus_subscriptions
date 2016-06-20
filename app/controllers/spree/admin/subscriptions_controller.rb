@@ -37,6 +37,17 @@ module Spree
         end
       end
 
+      def update
+        UpdateSubscriptionAddress.new.update_address(@object, params[:subscription])
+        if @subscription.save
+          flash[:success] = flash_message_for(@subscription, :subscription_address_updated)
+
+          redirect_to edit_object_url(@subscription)
+        else
+          flash[:error] = Spree.t(:subscription_address_could_not_be_update)
+        end
+      end
+
       def renew
         before_failure_count = @object.failure_count
         ::GenerateSubscriptionOrder.new(@object).call
