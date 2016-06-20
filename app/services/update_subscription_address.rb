@@ -18,7 +18,7 @@ class UpdateSubscriptionAddress
   end
 
   def update_bill_address(subscription, new_bill_address)
-    subscription.build_bill_address(subscription.bill_address.dup.attributes.merge(new_bill_address)))
+    subscription.build_bill_address(subscription.bill_address.dup.attributes.merge(new_bill_address))
   end
 
   def update_ship_and_bill_address(subscription, new_ship_address, new_bill_address)
