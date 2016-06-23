@@ -28,26 +28,14 @@ feature 'Subscription' do
       click_link("Edit", visible: false)
 
       fill_in("subscription_bill_address_attributes_address1", with: "updated address 1")
-      fill_in("subscription_bill_address_attributes_address2", with: "updated address 2")
-      fill_in("subscription_bill_address_attributes_city", with: "updated city")
-      fill_in("subscription_bill_address_attributes_zipcode", with: "11111")
 
       fill_in("subscription_ship_address_attributes_address1", with: "updated address 1")
-      fill_in("subscription_ship_address_attributes_address2", with: "updated address 2")
-      fill_in("subscription_ship_address_attributes_city", with: "updated city")
-      fill_in("subscription_ship_address_attributes_zipcode", with: "11111")
 
       click_button("Update")
 
       expect(page).to have_field("subscription_bill_address_attributes_address1", with: "updated address 1")
-      expect(page).to have_field("subscription_bill_address_attributes_address2", with: "updated address 2")
-      expect(page).to have_field("subscription_bill_address_attributes_city", with: "updated city")
-      expect(page).to have_field("subscription_bill_address_attributes_zipcode", with: "11111")
 
       expect(page).to have_field("subscription_ship_address_attributes_address1", with: "updated address 1")
-      expect(page).to have_field("subscription_ship_address_attributes_address2", with: "updated address 2")
-      expect(page).to have_field("subscription_ship_address_attributes_city", with: "updated city")
-      expect(page).to have_field("subscription_ship_address_attributes_zipcode", with: "11111")
     end
 
   end

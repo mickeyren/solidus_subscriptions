@@ -10,6 +10,9 @@ describe UpdateSubscriptionAddress do
     before do
       @new_address = build_address_params(old_address)
       @new_address[:address1] = "New Address"
+      @new_address[:address2] = "New Address 2"
+      @new_address[:city] = "Updated City"
+      @new_address[:zipcode] = "11111"
     end
 
     it "admin users are able to update only the ship address" do
@@ -73,6 +76,7 @@ describe UpdateSubscriptionAddress do
       lastname: address.lastname,
       address1: address.address1,
       address2: address.address2,
+      city: address.city,
       zipcode: address.zipcode,
       country_id: address.country_id,
       state_id: address.state_id,
