@@ -2,7 +2,7 @@ class CreateSubscriptionJob < ActiveJob::Base
   queue_as :default
 
   def perform(order_id)
-    begin      
+    begin
       order = Spree::Order.find(order_id)
       create_subscription_from_eligible_items(order)
     rescue => e
@@ -14,7 +14,7 @@ class CreateSubscriptionJob < ActiveJob::Base
 protected
 
   def create_subscription_from_eligible_items(order)
-    user = Spree::User.find_by_email(order.email)
+    user = order.user
     line_items = eligible_line_items(order)
     line_items.keys.each do |interval|
       attrs = {
