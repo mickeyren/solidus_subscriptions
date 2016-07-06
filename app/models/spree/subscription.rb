@@ -134,7 +134,8 @@ module Spree
         repeat_order: true,
         bill_address: Spree::Address.new(bill_address.dup.attributes.except(*non_existing_attributes)),
         ship_address: Spree::Address.new(ship_address.dup.attributes.except(*non_existing_attributes)),
-        channel: 'subscription'
+        channel: 'subscription',
+        store: Spree::Store.current
       )
       created_order.update_column(:email, email) if email
       created_order
