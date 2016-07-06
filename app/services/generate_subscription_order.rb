@@ -30,20 +30,11 @@ class GenerateSubscriptionOrder
     transition_order_from_address_to_delivery!(next_order)
     transition_order_from_delivery_to_payment!(next_order)
 
-    # process payment if has store credits
-    if has_store_credits = has_available_store_credits(next_order)
-      next_order.create_store_credits_payment!
-    end
-
     # else if there is none or store credits were not enough
-    if !(has_store_credits && next_order.covered_by_store_credit?)
-      ensure_credit_card_has_expiration_month
-      next_order.create_payment!(payment_gateway_for_card(credit_card), credit_card)
-    end
+    ensure_credit_card_has_expiration_month
+    next_order.create_payment!(payment_gateway_for_card(credit_card), credit_card)
 
     transition_order_from_payment_to_complete!(next_order)
-
-    # subscription.decrement_prepaid_duration!
 
     true
   end
@@ -88,9 +79,5 @@ class GenerateSubscriptionOrder
 
   def next_order
     @next_order ||= subscription.create_next_order!
-  end
-
-  def has_available_store_credits(order)
-    order.total_available_store_credit > 0 if Spree::PaymentMethod.find_by(type: 'Spree::PaymentMethod::StoreCredit', active: true)
   end
 end

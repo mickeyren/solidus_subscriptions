@@ -63,10 +63,6 @@ module Spree
     def subscription
       subscriptions.last
     end
-
-    # def create_store_credits_payment!
-    #   add_store_credit_payments
-    # end
   end
 end
 
