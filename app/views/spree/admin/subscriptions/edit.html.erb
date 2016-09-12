@@ -1,15 +1,12 @@
 <% content_for :page_title do %>
-  <%= t(:editing_subscription) %>
+  <%= Spree.t(:editing_subscription) %>
 <% end %>
 
 <%= render partial: 'spree/admin/subscriptions/sidebar' %>
 
 <%= form_for @subscription, :url => admin_subscription_path(@subscription) do |f| %>
 
-  <fieldset class="index no-border-bottom">
-    <legend align="center"><%= Spree.t("admin.subscription") %></legend>
-    <%= render :partial => 'form', :locals => { :f => f } %>
-  </fieldset>
+  <%= render :partial => 'form', :locals => { :f => f } %>
 
   <%= render partial: 'spree/admin/subscriptions/addresses', :locals => { :f => f } %>
 

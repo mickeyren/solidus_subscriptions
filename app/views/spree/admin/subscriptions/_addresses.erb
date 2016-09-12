@@ -20,11 +20,10 @@
       <%= render :partial => 'spree/admin/shared/address_form', :locals => { :f => sa_form, :type => "shipping" } %>
     <% end %>
   </fieldset>
-</div>  
+</div>
 
 <% unless @subscription.new_record? %>
-  <div class="clear"></div>
-  <fieldset class="index no-border-top">
+  <fieldset class="no-border-top">
     <div class="form-buttons filter-actions actions" data-hook="buttons">
       <%= button Spree.t('actions.update'), 'refresh' %>
       <span class="or"><%= Spree.t(:or) %></span>

@@ -12,21 +12,8 @@ en:
   next_shipment: "Next Shipment"
   status: "Status"
   you_have_no_subscriptions_yet: "You don't seem to have any subscriptions on file"
-  frequency: "Frequency"
-  subscription_state:
-    active: Active
-    cancelled: Cancelled
-    paused: Paused
   are_you_sure: "Are you sure?"
-  action:
-    pause: Pause
-    resume: Resume
-    change: Change
-    cancel: Cancel
-    delete: Delete
-    add: Add
   resume_at: "Resume on"
-
 
   spree:
     id: "ID"
@@ -39,9 +26,26 @@ en:
     successfully_skipped: subscription next order has been skipped
     successfully_undo_skip: subscription next order skip has been undone
     subscription: Subscription
+    frequency: Frequency
+    editing_subscription: Editing Subscription
+    addl_information: Addl Information
+    subscription_state:
+      active: Active
+      cancelled: Cancelled
+      paused: Paused
+    actions:
+      pause: Pause
+      resume: Resume
+      change: Change
+      back: Back
     admin:
       tab:
         subscriptions: "Subscriptions"
+      subscription:
+        subscription: Subscription
+        current_items: Current Items
+        orders: Order
+        skips_history: Skips History
 
   activerecord:
     attributes:

@@ -11,10 +11,10 @@
       <%= f.label :email, Spree.t(:email) %><br />
       <%= f.text_field :email, class: 'fullwidth' %>
       <%= f.error_message_on :email %>
-    <% end %>    
+    <% end %>
   </div>
 </div>
 
 <%= javascript_tag do -%>
     var subscription_id = '<%= @subscription.id %>';
-<% end -%>    
+<% end -%>
