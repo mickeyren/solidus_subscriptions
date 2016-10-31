@@ -12,8 +12,7 @@ class SubscriptionItemSerializer < ActiveModel::Serializer
     {
       id: variant.id,
       name: variant.product.name,
-      options_text: variant.options_text,
-      options_values: variant.option_values
+      options_text: variant.options_text
     }
   end
 end
