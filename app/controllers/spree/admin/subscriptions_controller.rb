@@ -37,19 +37,6 @@ module Spree
         end
       end
 
-      def update
-        if params[:subscription].key?(:ship_address_attributes || :bill_address_attributes)
-          UpdateSubscriptionAddress.new.update_address(@object, params[:subscription])
-          if @subscription.save
-            flash[:success] = "Subscription address was successfully updated"
-
-            redirect_to edit_object_url(@subscription)
-          else
-            flash[:error] = "Subscription address could not be updated: #{error.message}"
-          end
-        end
-      end
-
       def renew
         before_failure_count = @object.failure_count
         ::GenerateSubscriptionOrder.new(@object).call
