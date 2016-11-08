@@ -38,15 +38,9 @@ module Spree
       end
 
       def renew
-        before_failure_count = @object.failure_count
-        ::GenerateSubscriptionOrder.new(@object).call
+        SubscriptionRenewalJob.perform_later @subscription.id
+        flash[:success] = flash_message_for(@object, :being_renewed)
 
-        # check if the failure count has increase, that means we have an error
-        if  @object.failure_count > before_failure_count
-          flash[:error] = flash_message_for(@object, :error_renew)
-        else
-          flash[:success] = flash_message_for(@object, :successfully_renewed)
-        end
         respond_with(@object) do |format|
           format.html { redirect_to location_after_save }
         end

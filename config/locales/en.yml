@@ -19,6 +19,7 @@ en:
     id: "ID"
     successfully_cancelled: successfully cancelled subscription
     successfully_renewed: successfully renewed subscription
+    being_renewed: subscription being renewed
     error_renew: failed to renew subscription
     order_number: Order Number
     requires_order_id: Requires order id
