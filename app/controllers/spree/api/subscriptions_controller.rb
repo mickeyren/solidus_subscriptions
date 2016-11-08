@@ -165,7 +165,7 @@ module Spree
       end
 
       def permitted_subscription_attributes
-        [:interval, :credit_card_id, :email]
+        [:interval, :credit_card_id, :email, :next_renewal_at]
       end
     end
   end
