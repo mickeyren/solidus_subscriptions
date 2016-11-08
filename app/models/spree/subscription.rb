@@ -1,5 +1,7 @@
 module Spree
   class Subscription < ActiveRecord::Base
+    include SubscriptionStateMachine
+
     has_many :subscription_items, dependent: :destroy, inverse_of: :subscription
     has_and_belongs_to_many :orders, join_table: :spree_orders_subscriptions
     belongs_to :user
@@ -23,6 +25,8 @@ module Spree
     validates_presence_of :user
 
     after_save :reset_failure_count, if: :credit_card_id_changed?
+    after_create :mark_last_renewal!
+    after_touch :adjust_next_renewal!
 
     class << self
       def active
@@ -70,11 +74,7 @@ module Spree
     end
 
     def next_shipment_date
-      if skip_order_at
-        skip_order_at.advance(calc_next_renewal_date)
-      elsif last_order
-        last_order.completed_at.advance(calc_next_renewal_date)
-      end
+      next_renewal_at
     end
 
     def calc_next_renewal_date
@@ -82,7 +82,7 @@ module Spree
     end
 
     def active?
-      self.state == 'active'
+      %w(active renewing).include? state
     end
 
     def cancelled?
@@ -242,6 +242,19 @@ module Spree
       super((options || { }).merge({
           :methods => [:next_shipment_date, :skip_order_at]
       }))
+    end
+
+    private
+
+    def mark_last_renewal!
+      touch(:last_renewal_at)
+    end
+
+    def adjust_next_renewal!
+      return if renewing?
+
+      update_column(:next_renewal_at,
+        last_renewal_at.advance(calc_next_renewal_date))
     end
 
   end
