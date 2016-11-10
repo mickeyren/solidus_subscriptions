@@ -32,6 +32,12 @@ module Spree
         end
       end
 
+      def renew
+        SubscriptionRenewalJob.perform_later @subscription.id
+
+        render_subscription
+      end
+
       def skip_next_order
         @subscription.skip_next_order
 
