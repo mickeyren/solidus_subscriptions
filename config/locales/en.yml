@@ -54,7 +54,7 @@ en:
       cancel_reasons:
         replenish_often: My products were replenished too often
         replenish_seldom: My product were not replensihed often enough
-        no_longer_want: I no longer want to use Glossier products
+        no_longer_want: I no longer want to use the products
         want_single_purchase: I want to make single purchases
         not_say: I’d prefer not to say
 
