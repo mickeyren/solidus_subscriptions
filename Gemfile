@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'solidus', github: 'solidusio/solidus', branch: 'master'
+gem 'solidus', github: 'solidusio/solidus', branch: 'v1.4'
 # Provides basic authentication functionality for testing parts of your engine
 gem 'solidus_auth_devise', github: 'solidusio/solidus_auth_devise', branch: 'master'
 gem 'active_model_serializers', '~> 0.8.3'
