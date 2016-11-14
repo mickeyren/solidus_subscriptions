@@ -85,21 +85,6 @@ module Spree
       %w(active renewing).include? state
     end
 
-    def cancelled?
-      state == 'cancelled'
-    end
-
-    def paused?
-      state == 'paused'
-    end
-
-    def cancel
-      update_attribute(:state, 'cancelled')
-      update_attribute(:cancelled_at, Time.now)
-    end
-
-    alias_method :cancel!, :cancel
-
     def last_order
       orders.complete.reorder("completed_at desc").first
     end
@@ -193,15 +178,6 @@ module Spree
     end
 
     alias_attribute :can_skip?, :can_skip
-
-    def pause
-      update_attributes(pause_at: Time.now, resume_at: nil, state: 'paused')
-    end
-
-    def resume(resume_at_date = Time.now)
-      update_attributes(resume_at: resume_at_date)
-      update_attributes(pause_at: nil, state: 'active') if (resume_at_date.to_date <= Date.today)
-    end
 
     def completed_orders
       orders.complete
