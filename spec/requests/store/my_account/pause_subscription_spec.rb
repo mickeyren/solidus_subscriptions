@@ -44,7 +44,7 @@ feature "Subscription", type: :request do
 
       subscription.resume next_month
 
-      expect(subscription.state).to eq('Paused')
+      expect(subscription.state).to eq('Active')
       expect(subscription).to have_text("Will be resumed on #{next_month}")
     end
   end
