@@ -1,7 +1,4 @@
 <% if @subscription.cancelled? %>
-  <fieldset class="index no-border-bottom">
-    <legend align="center"><%= Spree.t("admin.subscription.cancellation") %></legend>
-  </fieldset>
   <div class="twelve columns" data-hook="subscription-cancellation">
     <div class="alpha six columns">
       <strong>
@@ -21,5 +18,9 @@
         <%= @subscription.cancel_feedback %>
       </p>
     </div>
+  </div>
+<% else %>
+  <div class="alpha twelve columns no-objects-found">
+    <%= Spree.t(:empty) %>
   </div>
 <% end %>

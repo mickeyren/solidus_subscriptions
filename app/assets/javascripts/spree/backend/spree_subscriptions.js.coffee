@@ -41,6 +41,12 @@ $(document).ready ->
       fadeOutTime: 50
       intentPollInterval: 300
 
+  # handle the tabs
+  $('.subscription.tabs li > a').click ->
+    targetTab = $(this).data('target')
+    $('.subscription.tab-container > div').hide()
+    $('div#' + targetTab).show()
+
 
 toggleSubscriptionItemEdit = ->
   link = $(this);
