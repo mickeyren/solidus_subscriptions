@@ -41,7 +41,9 @@ en:
       back: Back
     admin:
       tab:
-        subscriptions: "Subscriptions"
+        subscriptions: Subscriptions
+        failures: Failed Renewals
+        adjust_sku: Adjust SKUs
       subscription:
         subscription: Subscription
         current_items: Current Items
