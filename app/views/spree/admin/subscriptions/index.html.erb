@@ -2,15 +2,9 @@
   <%= t(:listing_subscriptions) %>
 <% end %>
 
-<% content_for :page_actions do %>
-  <li><%= link_to('Failed Renewals', failures_admin_subscriptions_path, class: 'button fa') %></li>
-  <li><%= link_to('Adjust SKUs', adjust_sku_admin_subscriptions_path, class: 'button fa') %></li>
-<% end %>
-
 <% content_for :table_filter_title do %>
   <%= Spree.t(:search) %>
 <% end %>
-
 
 <% content_for :table_filter do %>
   <div data-hook="admin_subscriptions_index_search">
