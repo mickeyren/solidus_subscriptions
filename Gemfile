@@ -18,6 +18,7 @@ group :test do
   gem 'simplecov', require: false
   gem 'selenium-webdriver'
   gem 'poltergeist'
+  gem 'capybara-screenshot'
 end
 
 group :development do
