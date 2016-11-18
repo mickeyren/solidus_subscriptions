@@ -29,7 +29,12 @@ module SubscriptionStateMachine
       after_transition on: :resume do |subscription, transition|
         resume_at = transition.args.first || Time.now
         subscription.update_attributes(resume_at: resume_at)
-        subscription.update_attributes(pause_at: nil, state: 'active') if (resume_at.to_date <= Date.today)
+        # if resume is set at a future date, do not unpause
+        if resume_at.to_date > Date.today
+          subscription.update_attributes(state: 'paused')
+        else
+          subscription.update_attributes(pause_at: nil)
+        end
       end
     end
   end
