@@ -17,6 +17,7 @@ group :test do
   gem 'guard-rspec', require: false
   gem 'simplecov', require: false
   gem 'selenium-webdriver'
+  gem 'poltergeist'
 end
 
 group :development do
