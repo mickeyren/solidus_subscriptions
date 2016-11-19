@@ -19,7 +19,6 @@ Capybara.register_driver :poltergeist do |app|
       google-analytics.com))
 end
 
-Capybara.default_driver = :poltergeist
 Capybara.raise_server_errors   = false
 Capybara.always_include_port   = true
 Capybara.javascript_driver     = :poltergeist
