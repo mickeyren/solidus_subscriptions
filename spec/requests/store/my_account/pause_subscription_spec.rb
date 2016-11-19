@@ -44,7 +44,7 @@ feature "Subscription", type: :request do
 
       subscription.resume next_month
 
-      expect(subscription.state).to eq('Active')
+      expect(subscription.state).to eq('Paused')
       expect(subscription).to have_text("Will be resumed on #{next_month}")
     end
   end
@@ -57,7 +57,7 @@ feature "Subscription", type: :request do
   end
 
   def pause_all_subscriptions_for(user)
-    user.subscriptions.each { |s| s.pause }
+    user.subscriptions.each { |s| s.pause! }
   end
 
 end
