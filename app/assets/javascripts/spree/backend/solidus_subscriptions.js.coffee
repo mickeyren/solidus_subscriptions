@@ -30,16 +30,10 @@ $(document).ready ->
     variant = _.find(window.variants, (variant) ->
       variant.id == variant_id
     )
-
+    variantLineItemTemplate = HandlebarsTemplates["variants/line_items_autocomplete_stock"];
     $('#stock_details').html variantLineItemTemplate(variant: variant)
     $('#stock_details').show()
     $('button.add_variant').click addSubscriptionVariant
-    # Add some tips
-    $('.with-tip').powerTip
-      smartPlacement: true
-      fadeInTime: 50
-      fadeOutTime: 50
-      intentPollInterval: 300
 
   # handle the tabs
   $('.subscription.tabs li > a').click ->
