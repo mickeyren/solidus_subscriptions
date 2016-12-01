@@ -2,11 +2,6 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  subscribable: 'subscribable'
-  subscription: "subscription"
-  subscriptions: "subscriptions"
-  my_subscriptions: "My subscriptions"
-  listing_subscriptions: Subscriptions
   products: "Products"
   last_shipped_on: "Last Shipment"
   next_shipment: "Next Shipment"
@@ -26,7 +21,8 @@ en:
     subscription_created: subscription created
     successfully_skipped: subscription next order has been skipped
     successfully_undo_skip: subscription next order skip has been undone
-    subscription: Subscription
+    subscriptions: Subscriptions
+    my_subscriptions: "My subscriptions"
     frequency: Frequency
     editing_subscription: Editing Subscription
     addl_information: Addl Information
