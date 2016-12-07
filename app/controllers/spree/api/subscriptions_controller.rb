@@ -32,6 +32,12 @@ module Spree
         end
       end
 
+      def renew
+        SubscriptionRenewalJob.perform_later @subscription.id
+
+        render_subscription
+      end
+
       def skip_next_order
         @subscription.skip_next_order
 
@@ -165,7 +171,7 @@ module Spree
       end
 
       def permitted_subscription_attributes
-        [:interval, :credit_card_id, :email]
+        [:interval, :credit_card_id, :email, :next_renewal_at]
       end
     end
   end

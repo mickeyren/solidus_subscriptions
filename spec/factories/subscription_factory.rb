@@ -1,8 +1,8 @@
 FactoryGirl.define do
   factory :subscription, :class => Spree::Subscription do
-    state nil
+    state 'active'
     interval 2
-    # prepaid false  
+    # prepaid false
 
     ship_address {
       FactoryGirl.create(:subscription_address)

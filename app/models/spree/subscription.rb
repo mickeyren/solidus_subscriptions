@@ -1,5 +1,7 @@
 module Spree
   class Subscription < ActiveRecord::Base
+    include SubscriptionStateMachine
+
     has_many :subscription_items, dependent: :destroy, inverse_of: :subscription
     has_and_belongs_to_many :orders, join_table: :spree_orders_subscriptions
     belongs_to :user
@@ -23,6 +25,8 @@ module Spree
     validates_presence_of :user
 
     after_save :reset_failure_count, if: :credit_card_id_changed?
+    after_create :mark_last_renewal!
+    after_touch :adjust_next_renewal!
 
     class << self
       def active
@@ -70,11 +74,7 @@ module Spree
     end
 
     def next_shipment_date
-      if skip_order_at
-        skip_order_at.advance(calc_next_renewal_date)
-      elsif last_order
-        last_order.completed_at.advance(calc_next_renewal_date)
-      end
+      next_renewal_at
     end
 
     def calc_next_renewal_date
@@ -82,23 +82,8 @@ module Spree
     end
 
     def active?
-      self.state == 'active'
+      %w(active renewing).include? state
     end
-
-    def cancelled?
-      state == 'cancelled'
-    end
-
-    def paused?
-      state == 'paused'
-    end
-
-    def cancel
-      update_attribute(:state, 'cancelled')
-      update_attribute(:cancelled_at, Time.now)
-    end
-
-    alias_method :cancel!, :cancel
 
     def last_order
       orders.complete.reorder("completed_at desc").first
@@ -135,7 +120,7 @@ module Spree
         bill_address: Spree::Address.new(bill_address.dup.attributes.except(*non_existing_attributes)),
         ship_address: Spree::Address.new(ship_address.dup.attributes.except(*non_existing_attributes)),
         channel: 'subscription',
-        store: Spree::Store.current
+        store: Spree::Store.default
       )
       created_order.update_column(:email, email) if email
       created_order
@@ -194,15 +179,6 @@ module Spree
 
     alias_attribute :can_skip?, :can_skip
 
-    def pause
-      update_attributes(pause_at: Time.now, resume_at: nil, state: 'paused')
-    end
-
-    def resume(resume_at_date = Time.now)
-      update_attributes(resume_at: resume_at_date)
-      update_attributes(pause_at: nil, state: 'active') if (resume_at_date.to_date <= Date.today)
-    end
-
     def completed_orders
       orders.complete
     end
@@ -242,6 +218,19 @@ module Spree
       super((options || { }).merge({
           :methods => [:next_shipment_date, :skip_order_at]
       }))
+    end
+
+    private
+
+    def mark_last_renewal!
+      touch(:last_renewal_at)
+    end
+
+    def adjust_next_renewal!
+      return if renewing?
+
+      update_column(:next_renewal_at,
+        last_renewal_at.advance(calc_next_renewal_date))
     end
 
   end

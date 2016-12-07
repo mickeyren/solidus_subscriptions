@@ -1,7 +1,4 @@
 <% if @subscription.orders.exists? %>
-  <fieldset class="index no-border-bottom">
-    <legend align="center"><%= Spree.t("admin.subscription.orders") %></legend>
-  </fieldset>
   <table class="subscription-orders index" data-hook="subscription-orders">
     <colgroup>
        <col style="width: 13%;">
