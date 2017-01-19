@@ -106,7 +106,7 @@ module Spree
       # create a new credit card
       # then assign it to the subscription
       def create_credit_card
-        order = @subscription.last_order
+        order = @subscription.last_completed_order
         credit_card = nil
         begin
           ::Spree::CreditCard.transaction do
