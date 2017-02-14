@@ -1,6 +1,6 @@
 class SubscriptionSerializer < ActiveModel::Serializer
   extend Spree::Api::ApiHelpers
-  cached
+  cache
   delegate :cache_key, to: :object
 
   attributes :id, :interval, :state, :next_shipment_date, :skip_order_at, :email, :can_skip
