@@ -1,6 +1,6 @@
 class SubscriptionItemSerializer < ActiveModel::Serializer
   extend Spree::Api::ApiHelpers
-  cached
+  cache
   delegate :cache_key, to: :object
 
   attributes :id, :quantity, :price
