@@ -3,12 +3,10 @@ module Spree
     class SubscriptionsController < Spree::Api::BaseController
       before_action :find_subscription, except: [:index]
 
-      def self.prepended(base)
-        base.prepend_after_action :deliver_cancellation_email, only: [:cancel]
-        base.prepend_after_action :deliver_pause_email, only: [:pause]
-        # need to touch user so the address list is updated
-        base.prepend_after_action :touch_user, only: [:update_address, :create_address, :select_address]
-      end
+      after_action :deliver_cancellation_email, only: [:cancel]
+      after_action :deliver_pause_email, only: [:pause]
+      # need to touch user so the address list is updated
+      after_action :touch_user, only: [:update_address, :create_address, :select_address]
 
       def index
         render json: current_api_user.subscriptions,
