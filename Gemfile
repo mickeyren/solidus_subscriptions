@@ -20,6 +20,8 @@ group :test do
   gem 'selenium-webdriver'
   gem 'poltergeist'
   gem 'capybara-screenshot'
+  gem 'vcr'
+  gem 'webmock'
 end
 
 group :development do
